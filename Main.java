@@ -20,8 +20,8 @@ public class Main {
         Args arguments = new Args();
         new CommandLine(arguments).parse(args);
         String DB_NAME = arguments.databaseName;
-        System.out.println(DB_NAME);
         String DB_PATH = "./src/carsharing/db/" + (DB_NAME == null ? "carsharing" : DB_NAME);
+
         Connection conn = null;
         Statement stmt = null;
         try {
@@ -34,10 +34,7 @@ public class Main {
             conn.setAutoCommit(true);
             //STEP 3: Execute a query
             stmt = conn.createStatement();
-            String sql =  "CREATE TABLE   COMPANY " +
-                    "(ID INTEGER, " +
-                    " NAME VARCHAR(255), " +
-                    " PRIMARY KEY ( id ))";
+
             stmt.executeUpdate(sql);
             System.out.println("Created table in given database...");
 
