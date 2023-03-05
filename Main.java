@@ -4,6 +4,7 @@ import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
 import java.sql.Statement;
+import carsharing.DAO.CompanyDaoImpl;
 import picocli.CommandLine;
 import picocli.CommandLine.Command;
 import picocli.CommandLine.Option;
@@ -14,7 +15,7 @@ public class Main {
     static final String DB_URL = "jdbc:h2:file:";
 
     //  Database credentials
-    static final String USER = "sa";
+    static final String USER = "";
     static final String PASS = "";
     public static void main(String[] args) {
         Args arguments = new Args();
@@ -30,16 +31,16 @@ public class Main {
 
             //STEP 2: Open a connection
             System.out.println("Connecting to database...");
-            conn = DriverManager.getConnection(DB_URL + DB_PATH);
+            conn = DriverManager.getConnection(DB_URL + DB_PATH, USER, PASS);
             conn.setAutoCommit(true);
-            //STEP 3: Execute a query
-            stmt = conn.createStatement();
 
-            stmt.executeUpdate(sql);
-            System.out.println("Created table in given database...");
+//            //STEP 3: Start program with menu
+            CompanyDaoImpl companyDao = new CompanyDaoImpl(conn,"COMPANY");
+            Menu menu = new Menu(companyDao);
+            menu.showMenu();
 
-            // STEP 4: Clean-up environment
-            stmt.close();
+            // STEP 4: Clean-up environment (statements are closed in each CRUD method
+            //stmt.close();
             conn.close();
         } catch(SQLException se) {
             //Handle errors for JDBC

@@ -2,23 +2,22 @@ package carsharing.DAO;
 
 public class Company {
     private String name;
-    private int ID;
-
-    public Company(String name, int id) {
-        this.name = name;
-        this.ID = ID;
-    }
+    private Integer id;
 
     public Company(String name) {
         this.name = name;
     }
 
+    public Company(String name, Integer id) {
+        this.name = name;
+        this.id = id;
+    }
     public int getID() {
-        return ID;
+        return id;
     }
 
     public void setID(int ID) {
-        this.ID = ID;
+        this.id = ID;
     }
 
     public String getName() {

@@ -1,7 +1,5 @@
 package carsharing.DAO;
 
-import picocli.CommandLine;
-
 import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -11,7 +9,6 @@ import java.util.List;
 import java.util.Optional;
 
 public class CompanyDaoImpl implements Dao {
-    List<Company> companies;
     private final Connection connection;
     private final String tableName;
 
@@ -19,9 +16,8 @@ public class CompanyDaoImpl implements Dao {
         this.connection = connection;
         this.tableName = tableName;
         String sql = "CREATE TABLE IF NOT EXISTS " + tableName +
-                " (ID INTEGER NOT NULL AUTO_INCREMENT," +
-                "NAME VARCHAR(255) UNIQUE NOT NULL," +
-                "PRIMARY KEY ( ID ))";
+                " (ID INT AUTO_INCREMENT PRIMARY KEY," +
+                " NAME VARCHAR(255) UNIQUE NOT NULL)";
         try {
             Statement statement = connection.createStatement();
             statement.executeUpdate(sql);
@@ -41,6 +37,7 @@ public class CompanyDaoImpl implements Dao {
                 Company company = new Company(rs.getString("name"), rs.getInt("ID"));
                 allCompanies.add(company);
             }
+            stmt.close();
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -57,6 +54,7 @@ public class CompanyDaoImpl implements Dao {
             while (rs.next()) {
                 company = new Company(rs.getString("NAME"));
             }
+            stmt.close();
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -64,11 +62,13 @@ public class CompanyDaoImpl implements Dao {
     }
 
     @Override
-    public void addCompany(String nameOfCompany, int id) {
+    public void addCompany(String nameOfCompany) {
         try {
             Statement stmt = connection.createStatement();
-            String sql =  "INSERT INTO COMPANIES (name, id) VALUES "
-                    + "(" + nameOfCompany + ", " + id + ");";
+            String sql =  "INSERT INTO " + tableName + " (name) VALUES "
+                    + "('" + nameOfCompany + "')";
+            stmt.execute(sql);
+            stmt.close();
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -76,7 +76,6 @@ public class CompanyDaoImpl implements Dao {
 
     @Override
     public void updateCompany(Company company) {
-
     }
 
     @Override
