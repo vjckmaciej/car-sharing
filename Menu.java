@@ -1,17 +1,19 @@
 package carsharing;
 
+import carsharing.DAO.Car;
+import carsharing.DAO.CarDaoImpl;
 import carsharing.DAO.Company;
 import carsharing.DAO.CompanyDaoImpl;
-
 import java.util.List;
-import java.util.Optional;
 import java.util.Scanner;
 
 public class Menu {
     CompanyDaoImpl companyDao;
+    CarDaoImpl carDao;
 
-    public Menu(CompanyDaoImpl companyDao) {
+    public Menu(CompanyDaoImpl companyDao, CarDaoImpl carDao) {
         this.companyDao = companyDao;
+        this.carDao = carDao;
     }
 
     static Scanner scanner = new Scanner(System.in);
@@ -35,7 +37,7 @@ public class Menu {
                     System.exit(0);
                     break;
                 default:
-                    System.out.println("default");
+                    printMainMenu();
                     break;
             }
             choice = Integer.parseInt(scanner.next());
@@ -52,30 +54,90 @@ public class Menu {
             System.out.println();
             switch (choice) {
                 case 1:
-                    if (companyDao.getAllCompanies().get().isEmpty()) {
+                    if (companyDao.getAll().isEmpty()) {
                         System.out.println("The company list is empty");
+                        printCompanyMenu();
                     } else {
-                        System.out.println("Company list:");
-                        //System.out.println(companyDao.getAllCompanies());
-                        Optional<List<Company>> companyList = companyDao.getAllCompanies();
-                        for (Company c : companyList.get()) {
-                            System.out.println(c.getID() + ". " + c.getName());
+                        System.out.println("Choose the company:");
+                        List<Company> companyList = companyDao.getAll();
+                        int counter = 1;
+                        for (Company c : companyList) {
+                            System.out.println(counter + ". " + c.getName());
+                            counter++;
+                        }
+                        System.out.println("0. Back");
+                        scanner.nextLine();
+                        int choiceOfCarCompany = scanner.nextInt();
+                        if (choiceOfCarCompany == 0) {
+                            printCompanyMenu();
+                        }
+                        for (Company c : companyList) {
+                            if (c.getID() == choiceOfCarCompany) {
+                                printCarMenu(c);
+                            }
                         }
                         System.out.println();
                     }
-                    printCompanyMenu();
+                    int choiceOfCarCompany = scanner.nextInt();
+
+                    //printCompanyMenu();
                     break;
                 case 2:
                     System.out.println("Enter the company name: ");
                     scanner.nextLine();
                     String nameOfCompany = scanner.nextLine();
-                    companyDao.addCompany(nameOfCompany);
+                    companyDao.add(new Company(nameOfCompany));
                     System.out.println("The company was created!");
                     System.out.println();
                     printCompanyMenu();
                     break;
                 case 0:
                     printMainMenu();
+                    break;
+                default:
+                    printCompanyMenu();
+                    break;
+            }
+            choice = Integer.parseInt(scanner.next());
+        }
+    }
+
+    public void printCarMenu(Company companyOfCar) {
+        System.out.println("'" + companyOfCar.getName() + "'" + " company");
+        System.out.println("1. Car list");
+        System.out.println("2. Create a car");
+        System.out.println("0. Back");
+        int choice = scanner.nextInt();
+//        while (choice == 1 || choice == 2 || choice == 0) {
+        while (true) {
+            System.out.println();
+            switch (choice) {
+                case 1:
+                    if (carDao.getCarsByCompanyId(companyOfCar.getID()).isEmpty()) {
+                        System.out.println("The car list is empty!");
+                        System.out.println();
+                    } else {
+                        List<Car> carList = carDao.getCarsByCompanyId(companyOfCar.getID());
+                        int carIndexInList = 1;
+                        for (Car c : carList) {
+                            System.out.println(carIndexInList + ". " + c.getName());
+                            carIndexInList++;
+                        }
+                        System.out.println();
+                    }
+                    printCarMenu(companyOfCar);
+                    break;
+                case 2:
+                    System.out.println("Enter the car name: ");
+                    scanner.nextLine();
+                    String newCarName = scanner.nextLine();
+                    carDao.add(new Car(newCarName, companyOfCar.getID()));
+                    System.out.println("The car was added!");
+                    System.out.println();
+                    printCarMenu(companyOfCar);
+                    break;
+                case 0:
+                    printCompanyMenu();
                     break;
                 default:
                     System.out.println("Dont know");

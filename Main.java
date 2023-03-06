@@ -4,6 +4,8 @@ import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
 import java.sql.Statement;
+
+import carsharing.DAO.CarDaoImpl;
 import carsharing.DAO.CompanyDaoImpl;
 import picocli.CommandLine;
 import picocli.CommandLine.Command;
@@ -36,7 +38,8 @@ public class Main {
 
 //            //STEP 3: Start program with menu
             CompanyDaoImpl companyDao = new CompanyDaoImpl(conn,"COMPANY");
-            Menu menu = new Menu(companyDao);
+            CarDaoImpl carDao = new CarDaoImpl(conn, "CAR");
+            Menu menu = new Menu(companyDao, carDao);
             menu.showMenu();
 
             // STEP 4: Clean-up environment (statements are closed in each CRUD method

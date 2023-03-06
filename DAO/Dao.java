@@ -2,10 +2,10 @@ package carsharing.DAO;
 import java.util.List;
 import java.util.Optional;
 
-public interface Dao {
-    public Optional<List<Company>> getAllCompanies();
-    public Optional<Company> getCompany(int id);
-    public void addCompany(String nameOfCompany);
-    public void updateCompany(Company company);
-    public void deleteCompany(int id);
+public interface Dao<T> {
+    List<T> getAll();
+    Optional<T> get(int id);
+    void add(T t);
+    void update(T t);
+    void delete(int id);
 }

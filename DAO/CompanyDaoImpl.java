@@ -8,7 +8,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
-public class CompanyDaoImpl implements Dao {
+public class CompanyDaoImpl implements Dao<Company> {
     private final Connection connection;
     private final String tableName;
 
@@ -27,7 +27,7 @@ public class CompanyDaoImpl implements Dao {
         }
     }
 
-    public Optional<List<Company>> getAllCompanies() {
+    public List<Company> getAll() {
         List<Company> allCompanies = new ArrayList<>();
         try {
             Statement stmt = connection.createStatement();
@@ -41,11 +41,11 @@ public class CompanyDaoImpl implements Dao {
         } catch (SQLException e) {
             e.printStackTrace();
         }
-        return Optional.ofNullable(allCompanies);
+        return allCompanies;
     }
 
     @Override
-    public Optional<Company> getCompany(int id) {
+    public Optional<Company> get(int id) {
         Company company = null;
         try {
             Statement stmt = connection.createStatement();
@@ -62,11 +62,11 @@ public class CompanyDaoImpl implements Dao {
     }
 
     @Override
-    public void addCompany(String nameOfCompany) {
+    public void add(Company company) {
         try {
             Statement stmt = connection.createStatement();
             String sql =  "INSERT INTO " + tableName + " (name) VALUES "
-                    + "('" + nameOfCompany + "')";
+                    + "('" + company.getName() + "')";
             stmt.execute(sql);
             stmt.close();
         } catch (SQLException e) {
@@ -75,11 +75,11 @@ public class CompanyDaoImpl implements Dao {
     }
 
     @Override
-    public void updateCompany(Company company) {
+    public void update(Company company) {
     }
 
     @Override
-    public void deleteCompany(int id) {
+    public void delete(int id) {
     }
 
 }
