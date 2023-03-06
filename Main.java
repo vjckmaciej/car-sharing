@@ -9,9 +9,7 @@ import carsharing.DAO.CarDaoImpl;
 import carsharing.DAO.CompanyDaoImpl;
 import carsharing.DAO.CustomerDaoImpl;
 import picocli.CommandLine;
-import picocli.CommandLine.Command;
 import picocli.CommandLine.Option;
-import picocli.CommandLine.Parameters;
 public class Main {
     // JDBC driver name and database URL
     static final String JDBC_DRIVER = "org.h2.Driver";

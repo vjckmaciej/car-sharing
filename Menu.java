@@ -2,11 +2,9 @@ package carsharing;
 
 import carsharing.DAO.*;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.Scanner;
-import java.util.stream.Collectors;
 
 public class Menu {
     CompanyDaoImpl companyDao;
@@ -23,7 +21,6 @@ public class Menu {
 
     public void showMenu() {
         printMainMenu();
-
     }
     public void printMainMenu() {
         System.out.println("1. Log in as a manager");
@@ -31,7 +28,6 @@ public class Menu {
         System.out.println("3. Create a customer");
         System.out.println("0. Exit");
         int choice = scanner.nextInt();
-//        while (choice == 1 || choice == 0) {
         while (true) {
             System.out.println();
             switch (choice) {
@@ -66,7 +62,6 @@ public class Menu {
         System.out.println("2. Create a company");
         System.out.println("0. Back");
         int choice = scanner.nextInt();
-//        while (choice == 1 || choice == 2 || choice == 0) {
         while (true) {
             System.out.println();
             switch (choice) {
@@ -77,10 +72,7 @@ public class Menu {
                     } else {
                         System.out.println("Choose the company:");
                         List<Company> companyList = companyDao.getAll();
-//                        int counter = 1;
                         for (Company c : companyList) {
-//                            System.out.println(counter + ". " + c.getName());
-//                            counter++;
                             System.out.println(c.getID() + ". " + c.getName());
                         }
                         System.out.println("0. Back");
@@ -123,7 +115,6 @@ public class Menu {
         System.out.println("2. Create a car");
         System.out.println("0. Back");
         int choice = scanner.nextInt();
-//        while (choice == 1 || choice == 2 || choice == 0) {
         while (true) {
             System.out.println();
             switch (choice) {
@@ -170,10 +161,8 @@ public class Menu {
         } else {
             System.out.println("Customer list:");
             List<Customer> customerList = customerDao.getAll();
-          //  int carIndexInList = 1;
             for (Customer customer : customerList) {
                 System.out.println(customer.getID() + ". " + customer.getName());
-                //carIndexInList++;
             }
             System.out.println("0. Back");
         }
@@ -190,7 +179,6 @@ public class Menu {
                     }
                 }
                 System.out.println();
-                //printCustomerMenu(choice);
                 break;
             }
         }
@@ -200,7 +188,6 @@ public class Menu {
             System.out.println("2. Return a rented car");
             System.out.println("3. My rented car");
             System.out.println("0. Back");
-            //scanner.nextLine();
             int choice = scanner.nextInt();
             switch (choice) {
                 case 1:
@@ -254,7 +241,6 @@ public class Menu {
                                 }
                                 System.out.println();
                                 printCustomerMenu(customer);
-
                         }
                     }
                     break;
