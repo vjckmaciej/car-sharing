@@ -30,7 +30,7 @@ public class CarDaoImpl implements Dao<Car> {
         }
     }
 
-    public List<Car> getCarsByCompanyId(int id) {
+    public List<Car> getCarsByCompanyId(Integer  id) {
         List<Car> allCarsByCompany = new ArrayList<>();
         try {
             Statement stmt = connection.createStatement();

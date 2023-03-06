@@ -7,6 +7,7 @@ import java.sql.Statement;
 
 import carsharing.DAO.CarDaoImpl;
 import carsharing.DAO.CompanyDaoImpl;
+import carsharing.DAO.CustomerDaoImpl;
 import picocli.CommandLine;
 import picocli.CommandLine.Command;
 import picocli.CommandLine.Option;
@@ -17,7 +18,7 @@ public class Main {
     static final String DB_URL = "jdbc:h2:file:";
 
     //  Database credentials
-    static final String USER = "";
+    static final String USER = "sa";
     static final String PASS = "";
     public static void main(String[] args) {
         Args arguments = new Args();
@@ -39,7 +40,8 @@ public class Main {
 //            //STEP 3: Start program with menu
             CompanyDaoImpl companyDao = new CompanyDaoImpl(conn,"COMPANY");
             CarDaoImpl carDao = new CarDaoImpl(conn, "CAR");
-            Menu menu = new Menu(companyDao, carDao);
+            CustomerDaoImpl customerDao = new CustomerDaoImpl(conn, "CUSTOMER");
+            Menu menu = new Menu(companyDao, carDao, customerDao);
             menu.showMenu();
 
             // STEP 4: Clean-up environment (statements are closed in each CRUD method
